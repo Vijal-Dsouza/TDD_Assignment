@@ -3,7 +3,7 @@ from typing import Dict, List
 
     
 class GeneralExample():
-    def flatten_dictionary(content: Dict) -> List:
+    def flatten_dictionary(self,content: Dict) -> List:
         '''
         Example of this function call:
             flatten_dictionary({'key1': [3, 2, 1], 'key2': [42, 55, 10], 'key3': [0, 22]})
