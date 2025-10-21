@@ -23,21 +23,34 @@ def test_create_dynamo_table(dynamodb):
     '''
     
     table = db_instance.create_movies_table()
-    table_from_mock = dynamodb.Table(table_name)
+    mock_table = dynamodb.Table(table_name)
 
-    assert table_from_mock.table_name == table_name
+    assert mock_table.table_name == table_name
 
 
-# @mock_dynamodb2
-# def test_add_dynamo_record_table():
-#     '''
-#         Implement the test logic here for testing add_dynamo_record_table method
-#     '''
-#     assert False
+def test_add_dynamo_record_table(dynamodb):
+    '''
+        Implement the test logic here for testing add_dynamo_record_table method
+    '''
+    item = {
+        'year': 2025,
+        'title': 'Success',
+    }
+    db_instance.create_movies_table()
+    db_instance.add_dynamo_record(table_name, item)
+    table = dynamodb.Table(table_name)
+    
+    assert table.item_count == 1
 
-# @mock_dynamodb2
-# def test_add_dynamo_record_table_failure():
-#     '''
-#         Implement the test logic here test_add_dynamo_record_table method for failures
-#     '''
-#     assert False
+
+def test_add_dynamo_record_table_failure(dynamodb):
+    '''
+        Implement the test logic here test_add_dynamo_record_table method for failures
+    '''
+    item = {
+        'year': 2025,
+    }
+    db_instance.create_movies_table()
+    with pytest.raises(Exception) as exec_type:
+        db_instance.add_dynamo_record(table_name,item)
+    assert "Validation Exception" in exec_type.value.args[0]
